@@ -1,1 +1,1 @@
-# Dziennik-uczni-w
+# Dziennik-uczniów
