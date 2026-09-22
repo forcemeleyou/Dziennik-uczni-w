@@ -1,0 +1,29 @@
+## Visual Studio
+.vs/
+.vscode/
+
+## Build
+[Bb]in/
+[Oo]bj/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Test results
+TestResults/
+[Tt]est[Rr]esult*/
+
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+
+## Logs
+*.log
+
+## OS
+.DS_Store
+Thumbs.db
