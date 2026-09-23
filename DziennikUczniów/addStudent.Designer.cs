@@ -218,10 +218,11 @@
             btnCancel2.UseVisualStyleBackColor = false;
             btnCancel2.Click += btnCancel2_Click;
             // 
-            // btnCancel
+            // addStudent
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             ClientSize = new Size(324, 394);
             Controls.Add(btnCancel2);
             Controls.Add(btnConfirm);
@@ -243,8 +244,11 @@
             Controls.Add(boxName);
             Controls.Add(lbId);
             Controls.Add(boxId);
-            Name = "btnCancel";
-            Text = "addStudent";
+            MaximumSize = new Size(340, 433);
+            MinimumSize = new Size(340, 433);
+            Name = "addStudent";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Dodawanie ucznia";
             ResumeLayout(false);
             PerformLayout();
         }

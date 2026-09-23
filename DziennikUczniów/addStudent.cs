@@ -14,62 +14,49 @@ namespace DziennikUczniów
     
     public partial class addStudent : Form
     {
-        private string _filePath = Path.Combine(Environment.CurrentDirectory, "students.txt");
+        private FileHelper<List<Student>> _fileHelper = new FileHelper<List<Student>>(Program.FilePath);
+
 
         private int _studentdId = 0;
-        public void SerializeToFile(List<Student> students)
-        {
-            var serializer = new XmlSerializer(typeof(List<Student>));
-
-            using (var streamWriter = new StreamWriter(_filePath))
-            {
-                serializer.Serialize(streamWriter, students);
-                streamWriter.Close();
-            }
-        }
-
-        public List<Student> DeserializeFromFile()
-        {
-            if (!File.Exists(_filePath))
-            {
-                return new List<Student>();
-            }
-            var serializer = new XmlSerializer(typeof(List<Student>));
-
-            using (var streamReader = new StreamReader(_filePath))
-            {
-                var students = (List<Student>)serializer.Deserialize(streamReader);
-                streamReader.Close();
-
-                return students;
-            }
-        }
+        private Student _student;
+        
         public addStudent( int id = 0)
         {
             InitializeComponent();
 
             _studentdId = id;
-            if(id != 0)
-            {
-                var students = DeserializeFromFile();
-                var student = students.FirstOrDefault(x => x.Id == id);
+            getStudentDate();
+            boxName.Select();
+        }
 
-                if(student == null)
+        private void getStudentDate()
+        {
+            if (_studentdId != 0)
+            {
+                Text = "Edytowanie danych ucznia";
+                var students = _fileHelper.DeserializeFromFile();
+                _student = students.FirstOrDefault(x => x.Id == _studentdId);
+
+                if (_student == null)
                 {
                     throw new Exception("Brak użytkownika o podanym id");
                 }
 
-                boxId.Text = student.Id.ToString();
-                boxName.Text = student.FirstName;
-                boxLastname.Text = student.LastName;
-                boxMath.Text = student.Math;
-                boxPhysic.Text = student.Physics;
-                boxPol.Text = student.PolishLang;
-                rchNotes.Text = student.Comments;
-                boxObcy.Text = student.ForeignLang;
-                boxTech.Text = student.Technology;
+                FillTextBoxes();
             }
-            boxName.Select();
+        }
+
+        private void FillTextBoxes()
+        {
+            boxId.Text = _student.Id.ToString();
+            boxName.Text = _student.FirstName;
+            boxLastname.Text = _student.LastName;
+            boxMath.Text = _student.Math;
+            boxPhysic.Text = _student.Physics;
+            boxPol.Text = _student.PolishLang;
+            rchNotes.Text = _student.Comments;
+            boxObcy.Text = _student.ForeignLang;
+            boxTech.Text = _student.Technology;
         }
 
         private void btnCancel2_Click(object sender, EventArgs e)
@@ -79,7 +66,7 @@ namespace DziennikUczniów
 
         private void btnConfirm_Click(object sender, EventArgs e)
         {
-            var students = DeserializeFromFile();
+            var students = _fileHelper.DeserializeFromFile();
 
             if (_studentdId != 0)
             {
@@ -105,31 +92,40 @@ namespace DziennikUczniów
             else
             {
                 // DODAWANIE
-                var lastStudent = students
+                AssignIdToNewStudent(students);
+                AddNewUserToList(students);
+
+            }
+
+            _fileHelper.SerializeToFile(students);
+            
+            Close();
+        }
+        private void AssignIdToNewStudent(List<Student>students)
+        {
+            var lastStudent = students
                     .OrderByDescending(x => x.Id)
                     .FirstOrDefault();
 
-                _studentdId = lastStudent == null ? 1 : lastStudent.Id + 1;
+            _studentdId = lastStudent == null ? 1 : lastStudent.Id + 1;
+        }
 
-                var student = new Student
-                {
-                    Id = _studentdId,
-                    FirstName = boxName.Text,
-                    LastName = boxLastname.Text,
-                    Math = boxMath.Text,
-                    Technology = boxTech.Text,
-                    Physics = boxPhysic.Text,
-                    PolishLang = boxPol.Text,
-                    ForeignLang = boxObcy.Text,
-                    Comments = rchNotes.Text
-                };
+         private void AddNewUserToList(List<Student>students)
+         {
+            var student = new Student
+            {
+                Id = _studentdId,
+                FirstName = boxName.Text,
+                LastName = boxLastname.Text,
+                Math = boxMath.Text,
+                Technology = boxTech.Text,
+                Physics = boxPhysic.Text,
+                PolishLang = boxPol.Text,
+                ForeignLang = boxObcy.Text,
+                Comments = rchNotes.Text
+            };
 
-                students.Add(student);
-            }
-
-            SerializeToFile(students);
-            
-            Close();
+            students.Add(student);
         }
     }
 }

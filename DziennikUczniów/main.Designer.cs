@@ -86,26 +86,29 @@
             // dgvDiary
             // 
             dgvDiary.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvDiary.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvDiary.BackgroundColor = SystemColors.ButtonHighlight;
             dgvDiary.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDiary.Location = new Point(12, 50);
             dgvDiary.Name = "dgvDiary";
-            dgvDiary.Size = new Size(776, 388);
+            dgvDiary.RowHeadersVisible = false;
+            dgvDiary.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDiary.Size = new Size(1104, 388);
             dgvDiary.TabIndex = 4;
             // 
-            // Form1
+            // main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1128, 450);
             Controls.Add(dgvDiary);
             Controls.Add(btnReflesh);
             Controls.Add(btnDelate);
             Controls.Add(btnEdyt);
             Controls.Add(btnAdd);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "main";
+            Text = "Dziennik ucznia";
             ((System.ComponentModel.ISupportInitialize)dgvDiary).EndInit();
             ResumeLayout(false);
         }
