@@ -1,6 +1,6 @@
 ﻿namespace DziennikUczniów
 {
-    partial class btnCancel
+    partial class addStudent
     {
         /// <summary>
         /// Required designer variable.
